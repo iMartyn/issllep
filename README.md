@@ -1,7 +1,7 @@
 iSSLLEp
 =======
-**i** nternal **SSL** **L** ets **E** ncrypt **p** roxy
--------------------------------------
+internal SSL Lets Encrypt proxy
+-------------------------------
 
 This little proxy should enable internal-only SSL certs to be created.  The idea being that issllep sits on a box responding to LetsEncrypt(LE)  Queries, but your actual Web Server is inaccessible to LE.
 
