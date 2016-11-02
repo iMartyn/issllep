@@ -3,6 +3,17 @@ iSSLLEp
 internal SSL Lets Encrypt proxy
 -------------------------------
 
+**ABANDONED AT BIRTH**
+
+I would have made this, but the "support" I got from the Go IRC channel sapped my enthusiasm and I'm gonna abandon it instead.
+
+If it is deemed useful at work, I may revive it, but right now, I'm not going to put my own time and effort into it.  Yay for community.
+
+
+
+
+Original theoretical README.md follows:
+
 This little proxy should enable internal-only SSL certs to be created.  The idea being that issllep sits on a box responding to LetsEncrypt(LE)  Queries, but your actual Web Server is inaccessible to LE.
 
 This is great for internal-only environments such as test or staging environments where LE should not be able to get to them.
