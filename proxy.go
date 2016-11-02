@@ -13,7 +13,7 @@ const defaultListen = ":8080"
 const defaultDBDriver = "sqlite3"
 const defaultDBDSN = "domains.db"
 
-var db sql.DB
+var db *sql.DB
 
 func defaultEnv(def string, envVar string) string {
     var actual = os.Getenv(envVar)
@@ -24,18 +24,19 @@ func defaultEnv(def string, envVar string) string {
 }
 
 func dbInit() {
-    db, err := sql.Open(defaultEnv(defaultDBDriver, "DBDRIVER"), defaultEnv(defaultDBDSN, "DBDSN"))
+    var err error
+    db, err = sql.Open(defaultEnv(defaultDBDriver, "DBDRIVER"), defaultEnv(defaultDBDSN, "DBDSN"))
     if (err != nil) {
         log.Fatal(err)
     }
-    defer db.Close()
 }
 
 func main() {
     dbInit()
     http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
         urlparts := strings.Split(r.URL.Path, "/")
-        if (urlparts[1] == ".well_known") {
+        if (urlparts[1] == ".well_known") && (len(urlparts) > 2) {
+            log.Print(len(urlparts))
             var err error
             var domaindata string
             var fqdn string = urlparts[2]
@@ -47,13 +48,14 @@ func main() {
                 } else {
                     domaindata = "AARGH"
                 }
-            } else {
-                fmt.Fprintf(w, domaindata)
             }
+            fmt.Fprintf(w, domaindata)
         } else {
             fmt.Fprintf(w, "Hello, You don't want to be here, go away.")
         }
     })
     
     log.Fatal(http.ListenAndServe(defaultEnv(":8080","LISTEN"), nil))
+
+    defer db.Close()
 }
